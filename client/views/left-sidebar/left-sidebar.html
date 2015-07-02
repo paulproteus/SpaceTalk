@@ -23,7 +23,7 @@
         <ul>
           {{#each teamUsers}}
             <li class="{{activeChannelClass}}">
-              <a class="open-direct-channel" href="{{pathFor 'channel' team=currentTeam.slug channel=directChannelName}}"><b class="user-circle-{{online}}">&#8226; </b>{{username}}</a>
+              <a class="open-direct-channel" href="{{pathFor 'channel' team=currentTeam.slug channel=directChannelName}}"><b class="user-circle-{{online}}">&#8226; </b>{{profile.name}}</a>
             </li>
           {{/each}}
         </ul>

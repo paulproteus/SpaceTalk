@@ -1,41 +1,39 @@
 Meteor.startup(function() {
+  Accounts.onCreateUser(function (options, user) {
+    // As in the default onCreateUser(), copy options.profile
+    // into user.profile.
+    if (options.profile) {
+      user.profile = options.profile;
+    }
 
-  if (Meteor.users.find().count() === 0) {
+    // Now, if this is the first user (which is to say, if there are
+    // no users created yet), do some initial app setup work.
+    if (Meteor.users.find().count() === 0) {
+      console.log('--------------------------');
+      console.log('this is the first user!');
 
-    console.log('--------------------------');
-    console.log('inserted the default user(s)');
+      if (Teams.find().count() === 0) {
+        var teamId = Teams.insert({
+          name: 'public'
+        });
+        console.log('--------------------------');
+        console.log('inserted the default team.');
 
-    var usernames = ['admin', 'user', 'user1', 'user2', 'user3', 'user4', 'user5'];
+        console.log('User the user with id : '+ user._id);
+        Channels.insert({
+          name: 'general',
+          teamId: teamId,
+          createdBy: user._id,
+          timestamp: new Date()
+        });
+        console.log('--------------------------');
+        console.log('inserted the default channel by the administrator.');
+      }
 
-    usernames.forEach(function(username) {
-      Accounts.createUser({
-        email: username + '@spacetalk.com',
-        password: username,
-        username: username
-      });
+    }
 
-      console.log('username: ' +  username + ' | password: ' + username +' | email: ' + username + '@spacetalk.com');
-    });
-  }
-
-  if (Teams.find().count() === 0) {
-    var teamId = Teams.insert({
-      name: 'public'
-    });
-    console.log('--------------------------');
-    console.log('inserted the default team.');
-
-    const aUser = Meteor.users.findOne({ username: 'admin'});
-    console.log('User the user with id : '+ aUser._id);
-    Channels.insert({
-      name: 'general',
-      teamId: teamId,
-      createdBy: aUser._id,
-      timestamp: new Date()
-    });
-    console.log('--------------------------');
-    console.log('inserted the default channel by the administrator.');
-
-  }
+    // Return the user, so that they can be finally actually created.
+    return user;
+  });
 
 });

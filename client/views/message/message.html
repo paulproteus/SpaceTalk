@@ -6,7 +6,7 @@
     <div class="message-body {{#unless isNewAuthor}}no-avatar{{/unless}}">
       {{#if isNewAuthor}}
       <div>
-        <span class="username">{{user.username}}</span>
+        <span class="username">{{user.profile.name}}</span>
         <span class="time">{{time timestamp}}</span>
       </div>
       {{/if}}

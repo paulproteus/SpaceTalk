@@ -4,6 +4,14 @@
   padding: 30px;
   border-radius: 3px;
 
+  // For Sandstorm, we use CSS to hide the
+  // accounts password login box, since the
+  // user is already signed-in, or else must
+  // use Sandstorm to sign in.
+  .at-pwd-form {
+    display: none;
+  }
+
   h3 {
     margin: 0;
   }
